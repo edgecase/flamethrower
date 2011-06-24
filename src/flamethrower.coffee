@@ -20,17 +20,15 @@ campfire.room roomId, ( room ) ->
   # leave the room on exit
   process.on 'SIGINT', ->
     room.leave ->
-      console.log '\nExiting room.'
+      console.log '\nExiting room'
       process.exit()
 
   findUser = (userId, callback) ->
-    console.log users
     if users[userId]?
       callback users[userId]
     else
       campfire.user userId, (response) ->
         user = response.user
-        console.log user
         users[userId] = user
         callback user
 
