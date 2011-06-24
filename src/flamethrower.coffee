@@ -1,6 +1,6 @@
 Campfire = require('../vendor/campfire').Campfire
 
-campfire = new Campfire { ssl: true, token: process.env.CAMPFIRE_TOKEN, account: 'edgecase' }
+campfire = new Campfire(ssl: true, token: process.env.CAMPFIRE_TOKEN, account: 'edgecase')
 roomId   = process.env.CAMPFIRE_ROOM || '416570'
 bot      = {}
 users    = {}
@@ -8,11 +8,11 @@ users    = {}
 campfire.me (response) ->
   bot = response.user
 
-campfire.room roomId, ( room ) ->
+campfire.room roomId, (room) ->
   room.join ->
     console.log "Joining #{room.name}"
 
-    room.listen ( msg ) ->
+    room.listen (msg) ->
       if msg.type is 'TextMessage' and msg.user_id isnt bot.id
         findUser msg.user_id, (user) ->
           postMessage msg.body, user.name
