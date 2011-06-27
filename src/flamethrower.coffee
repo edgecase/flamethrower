@@ -1,9 +1,12 @@
 Campfire = require('../vendor/campfire').Campfire
+http     = require('http')
 
-campfire = new Campfire(ssl: true, token: process.env.CAMPFIRE_TOKEN, account: 'edgecase')
-roomId   = process.env.CAMPFIRE_ROOM || '416570'
-bot      = {}
-users    = {}
+campfire  = new Campfire(ssl: true, token: process.env.CAMPFIRE_TOKEN, account: 'edgecase')
+roomId    = process.env.CAMPFIRE_ROOM || '416570'
+bot       = {}
+users     = {}
+dailyHost = process.env.DAILY_HOST || 'localhost'
+dailyPort = if dailyHost is 'localhost' then 3000 else 80
 
 campfire.me (response) ->
   bot = response.user
@@ -20,7 +23,7 @@ campfire.room roomId, (room) ->
   # leave the room on exit
   process.on 'SIGINT', ->
     room.leave ->
-      console.log '\nExiting room'
+      console.log "Exiting room"
       process.exit()
 
   findUser = (userId, callback) ->
@@ -33,5 +36,19 @@ campfire.room roomId, (room) ->
         callback user
 
   postMessage = (messageBody, userName) ->
-    console.log "Posting '#{messageBody}' for #{userName}"
-    room.speak "#{messageBody} right back at ya #{userName}!"
+    console.log "Posting '#{messageBody.length}' chars for #{userName}"
+
+    body = JSON.stringify(status: { message: messageBody, name: userName })
+
+    httpOptions =
+      host:    dailyHost,
+      port:    dailyPort,
+      method:  'POST',
+      path:    '/statuses',
+      headers:
+        'Content-Type':   'application/json',
+        'Content-Length': body.length
+
+    request = http.request(httpOptions)
+    request.write(body)
+    request.end()
