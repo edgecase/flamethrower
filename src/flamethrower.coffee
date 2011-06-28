@@ -5,8 +5,8 @@ campfire  = new Campfire(ssl: true, token: process.env.CAMPFIRE_TOKEN, account: 
 roomId    = process.env.CAMPFIRE_ROOM || '416570'
 bot       = {}
 users     = {}
-dailyHost = process.env.DAILY_HOST || 'localhost'
-dailyPort = if dailyHost is 'localhost' then 3000 else 80
+targetHost = process.env.TARGET_HOST || 'localhost'
+targetPort = if targetHost is 'localhost' then 3000 else 80
 
 campfire.me (response) ->
   bot = response.user
@@ -41,8 +41,8 @@ campfire.room roomId, (room) ->
     body = JSON.stringify(status: { message: messageBody, name: userName })
 
     httpOptions =
-      host:    dailyHost,
-      port:    dailyPort,
+      host:    targetHost,
+      port:    targetPort,
       method:  'POST',
       path:    '/statuses',
       headers:
