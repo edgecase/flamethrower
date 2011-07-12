@@ -1,11 +1,12 @@
 Campfire = require('../vendor/campfire').Campfire
 http     = require('http')
 
-campfire  = new Campfire(ssl: true, token: process.env.CAMPFIRE_TOKEN, account: 'edgecase')
-roomId    = process.env.CAMPFIRE_ROOM || '416570'
-bot       = {}
-users     = {}
+campfire   = new Campfire(ssl: true, token: process.env.CAMPFIRE_TOKEN, account: 'edgecase')
+roomId     = process.env.CAMPFIRE_ROOM || '416570'
+bot        = {}
+users      = {}
 targetHost = process.env.TARGET_HOST || 'localhost'
+targetPath = process.env.TARGET_PATH || '/api/statuses'
 targetPort = if targetHost is 'localhost' then 3000 else 80
 
 campfire.me (response) ->
@@ -44,7 +45,7 @@ campfire.room roomId, (room) ->
       host:    targetHost,
       port:    targetPort,
       method:  'POST',
-      path:    '/statuses',
+      path:    targetPath,
       headers:
         'Content-Type':   'application/json',
         'Content-Length': body.length
