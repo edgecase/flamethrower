@@ -1,0 +1,5 @@
+campfireAccount: 'edgecase'
+campfireToken:   'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+campfireRoomId:  '000000'
+targetHost:      'localhost'
+targetPath:      '/api/statuses'

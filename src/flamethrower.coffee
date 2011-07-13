@@ -1,13 +1,21 @@
-Campfire = require('../vendor/campfire').Campfire
-http     = require('http')
+Campfire   = require('../vendor/campfire').Campfire
+http       = require('http')
+config     = {}
 
-campfire   = new Campfire(ssl: true, token: process.env.CAMPFIRE_TOKEN, account: 'edgecase')
-roomId     = process.env.CAMPFIRE_ROOM || '416570'
-bot        = {}
-users      = {}
-targetHost = process.env.TARGET_HOST || 'localhost'
-targetPath = process.env.TARGET_PATH || '/api/statuses'
-targetPort = if targetHost is 'localhost' then 3000 else 80
+if require('path').existsSync('config.yml')
+  configYaml = require('fs').readFileSync('config.yml', 'utf8')
+  config     = require('yaml').eval(configYaml)
+
+campfireToken   = process.env.CAMPFIRE_TOKEN   || config.campfireToken
+campfireAccount = process.env.CAMPFIRE_ACCOUNT || config.campfireAccount
+roomId          = process.env.CAMPFIRE_ROOM    || config.campfireRoomId
+targetHost      = process.env.TARGET_HOST      || config.targetHost
+targetPath      = process.env.TARGET_PATH      || config.targetPath
+targetPort      = if targetHost is 'localhost' then 3000 else 80
+
+campfire        = new Campfire(ssl: true, token: campfireToken, account: campfireAccount)
+bot             = {}
+users           = {}
 
 campfire.me (response) ->
   bot = response.user
