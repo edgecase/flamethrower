@@ -21,9 +21,11 @@ Flamethrower is ready out-of-the-box to deploy to Heroku:
 To do anything meaningful, however, you'll need to configure it.
 Configuration is all done through environment variables on Heroku:
 
+    heroku config:add CAMPFIRE_ACCOUNT=campfiresubdomain
     heroku config:add CAMPFIRE_TOKEN=tokenforyourcampfireaccount
     heroku config:add CAMPFIRE_ROOM=123456
     heroku config:add TARGET_HOST=your-target-app.com
+    heroku config:add TARGET_PATH=/api/statuses
 
 ## Development
 
