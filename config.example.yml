@@ -1,4 +1,4 @@
-campfireAccount: 'edgecase'
+campfireAccount: 'campfiresubdomain'
 campfireToken:   'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 campfireRoomId:  '000000'
 targetHost:      'localhost'
