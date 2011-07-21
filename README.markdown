@@ -29,4 +29,8 @@ Configuration is all done through environment variables on Heroku:
 
 ## Development
 
+1. Create a config.yml (see config.example.yml).
+1. Run your target application on localhost:3000
+1. Run "node lib/flamethrower.js"
+
 ## JSON API Contract
