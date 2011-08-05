@@ -25,9 +25,8 @@ campfire.room roomId, (room) ->
     console.log "Joining #{room.name}"
 
     room.listen (msg) ->
-      if msg.type is 'TextMessage' and msg.user_id isnt bot.id
-        findUser msg.user_id, (user) ->
-          postMessage msg.body, user.name
+      # if msg.type is 'TextMessage' and msg.user_id isnt bot.id
+      postMessage msg.body, msg.user_id
 
   # leave the room on exit
   process.on 'SIGINT', ->
@@ -35,28 +34,30 @@ campfire.room roomId, (room) ->
       console.log "Exiting room"
       process.exit()
 
-  findUser = (userId, callback) ->
-    if users[userId]?
-      callback users[userId]
-    else
-      campfire.user userId, (response) ->
-        user = response.user
-        users[userId] = user
-        callback user
+  # findUser = (userId, callback) ->
+  #   if users[userId]?
+  #     callback users[userId]
+  #   else
+  #     campfire.user userId, (response) ->
+  #       user = response.user
+  #       users[userId] = user
+  #       callback user
 
-  postMessage = (messageBody, userName) ->
-    console.log "Posting '#{messageBody.length}' chars for #{userName}"
+  postMessage = (messageBody, userId) ->
+    console.log "Posting '#{messageBody.length}' chars for #{userId}"
 
-    body = JSON.stringify(status: { message: messageBody, name: userName })
+    body = JSON.stringify(status: { message: messageBody, id: userId })
 
-    httpOptions =
-      host:    targetHost,
-      port:    targetPort,
-      method:  'POST',
-      path:    targetPath,
-      headers:
-        'Content-Type':   'application/json',
+    httpOptions = {
+      host:    targetHost
+      port:    targetPort
+      method:  'POST'
+      path:    targetPath
+      headers: {
+        'Content-Type':   'application/json'
         'Content-Length': body.length
+      }
+    }
 
     request = http.request(httpOptions)
     request.write(body)
