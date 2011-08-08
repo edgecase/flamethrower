@@ -25,23 +25,14 @@ campfire.room roomId, (room) ->
     console.log "Joining #{room.name}"
 
     room.listen (msg) ->
-      # if msg.type is 'TextMessage' and msg.user_id isnt bot.id
-      postMessage msg.body, msg.user_id
+      if msg.type is 'TextMessage' and msg.user_id isnt bot.id
+        postMessage msg.body, msg.user_id
 
   # leave the room on exit
   process.on 'SIGINT', ->
     room.leave ->
       console.log "Exiting room"
       process.exit()
-
-  # findUser = (userId, callback) ->
-  #   if users[userId]?
-  #     callback users[userId]
-  #   else
-  #     campfire.user userId, (response) ->
-  #       user = response.user
-  #       users[userId] = user
-  #       callback user
 
   postMessage = (messageBody, userId) ->
     console.log "Posting '#{messageBody.length}' chars for #{userId}"
