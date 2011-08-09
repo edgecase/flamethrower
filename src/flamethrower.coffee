@@ -37,7 +37,7 @@ campfire.room roomId, (room) ->
   postMessage = (messageBody, userId) ->
     console.log "Posting '#{messageBody.length}' chars for #{userId}"
 
-    body = JSON.stringify(status: { message: messageBody, developer_id: userId })
+    body = JSON.stringify(status: { message: messageBody}, campfire_user_id: userId)
 
     httpOptions = {
       host:    targetHost
