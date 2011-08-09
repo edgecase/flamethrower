@@ -25,7 +25,7 @@ campfire.room roomId, (room) ->
     console.log "Joining #{room.name}"
 
     room.listen (msg) ->
-      if msg.type is 'TextMessage' and msg.user_id isnt bot.id
+      if msg.type is 'TextMessage' or msg.type is 'PasteMessage' and msg.user_id isnt bot.id
         postMessage msg.body, msg.user_id
 
   # leave the room on exit
