@@ -1,3 +1,8 @@
+THIS REPO IS NO LONGER MAINTAINED
+
+We haven't used this for a while. If you would like to take over ownership
+of this repo, please let us know.
+
 # Flamethrower
 
 Flamethrower is a general purpose Campfire bot that listens to a room
